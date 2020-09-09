@@ -3,20 +3,21 @@ import * as sqs from '@aws-cdk/aws-sqs';
 import {PolicyStatement} from "@aws-cdk/aws-iam";
 import * as lambda from "@aws-cdk/aws-lambda-nodejs";
 import {SqsEventSource} from "@aws-cdk/aws-lambda-event-sources";
-import {ITable, Table, TableProps, AttributeType, BillingMode} from "@aws-cdk/aws-dynamodb";
+import {Table, AttributeType, BillingMode} from "@aws-cdk/aws-dynamodb";
 import * as path from "path";
-export class TestDoceboContentStack extends Stack{
+
+export class QueueStack extends Stack{
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
     this.createSqsForCounters();
   }
 
   private createSqsForCounters(): void {
-    new QueueResolvers(this, "test");
+    new QueueResources(this, "queue-resources");
   }
 }
 
-class QueueResolvers extends Construct {
+class QueueResources extends Construct {
   constructor(scope: Construct, id: string, props?: StackProps){
     super(scope, id)
     const queue = new sqs.Queue(this, "sqs-import-log-counters", {
@@ -24,7 +25,8 @@ class QueueResolvers extends Construct {
       fifo: true,
     });
 
-    const table = new Table(this, "table-for-queues", {billingMode: BillingMode.PAY_PER_REQUEST,
+    const table = new Table(this, "table-for-queues", {
+      billingMode: BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: "pk",
         type: AttributeType.STRING
