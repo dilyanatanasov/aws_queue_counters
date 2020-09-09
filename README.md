@@ -1,15 +1,6 @@
-# Welcome to your CDK TypeScript project!
+# AWS Queue Counter
+## Example Queuing Counters System
 
-This is a blank project for TypeScript development with CDK.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
-# aws_queue_counters
+The main goal of the repo is tackle the problems that occur when making concurent reads and writes from a dynamodb table.
+With queuing we are ensuring consistency of the records that are updated one after another. 
+Using FIFO also insures the order of the passed data.
